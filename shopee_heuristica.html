@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Avaliação Heurística - Shopee | INHC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #18181b;
+            --color-bg-deep: #0a0a0c;
+            --color-surface: #27272a;
+            --color-text: #fafafa;
+            --color-text-secondary: #d4d4d8;
+            --color-text-muted: #a1a1aa;
+            --color-accent-1: #ee4d2d;
+            --color-accent-2: #ff7337;
+            --color-accent-3: #ffb347;
+            --color-glass-bg: rgba(255,255,255,0.05);
+            --color-glass-border: rgba(255,255,255,0.09);
+            --color-vignette: rgba(0,0,0,0.45);
+            --font-display: "Archivo Black", sans-serif;
+            --font-body: "DM Sans", sans-serif;
+        }
+    </style>
+    <style>
+        :root {
+            --color-bg: #18181b;
+            --color-text: #fafafa;
+            --glow-color-rgb: 238, 77, 45;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            background: var(--color-bg);
+            margin: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: #fafafa;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .deck {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .slide>.content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1100px;
+            padding: clamp(1.5rem, 4vw, 3.5rem);
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+        }
+
+        .nav-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ee4d2d;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(238, 77, 45, 0.2);
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .slide-dots .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .slide-dots .dot.active {
+            background: #ee4d2d;
+            transform: scale(1.3);
+        }
+
+        .slide-counter {
+            font-size: 0.78rem;
+            color: #a1a1aa;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        @keyframes float-slow {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(50px, -40px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-30px, 35px) scale(0.92);
+            }
+
+            75% {
+                transform: translate(40px, 15px) scale(1.07);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        @keyframes float-drift {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(-45px, -55px) scale(1.13) rotate(3deg);
+            }
+
+            66% {
+                transform: translate(38px, 28px) scale(0.89) rotate(-2deg);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .gradient-mesh {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float-slow 10s ease-in-out infinite;
+        }
+
+        .blob:nth-child(2) {
+            animation: float-drift 14s ease-in-out infinite;
+        }
+
+        .blob:nth-child(3) {
+            animation: float-slow 18s ease-in-out infinite reverse;
+        }
+
+        .slide::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px;
+            opacity: 0.03;
+            mix-blend-mode: overlay;
+        }
+
+        .slide::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 50%, var(--color-vignette) 100%);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(238, 77, 45, 0.5), 0 0 40px rgba(238, 77, 45, 0.2);
+        }
+
+        .stat-glow {
+            text-shadow: 0 0 30px rgba(238, 77, 45, 0.6), 0 0 60px rgba(238, 77, 45, 0.25);
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(238, 77, 45, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 35px rgba(238, 77, 45, 0.85), 0 0 60px rgba(238, 77, 45, 0.35);
+            }
+        }
+
+        .glow-pulse {
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        .bar-fill {
+            transition: width 0.7s ease;
+        }
+
+        .sev-bar {
+            height: 10px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #ee4d2d, #ffb347);
+        }
+
+        .image-placeholder {
+            border: 2px dashed rgba(238, 77, 45, 0.4);
+            border-radius: 12px;
+            background: rgba(238, 77, 45, 0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #a1a1aa;
+            font-size: 0.85rem;
+        }
+
+        .heuristic-pill {
+            display: inline-block;
+            background: rgba(238, 77, 45, 0.15);
+            border: 1px solid rgba(238, 77, 45, 0.3);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 0.72rem;
+            color: #ff7337;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+    <div class="deck">
+
+        <!-- SLIDE 1: TÍTULO -->
+        <div class="slide slide-1 active" data-slide="1">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:520px;height:520px;top:-120px;right:-100px;background:#ee4d2d;opacity:0.14;"></div>
+                <div class="blob"
+                    style="width:320px;height:320px;bottom:-90px;left:-70px;background:#ff7337;opacity:0.11;"></div>
+                <div class="blob" style="width:220px;height:220px;top:42%;left:12%;background:#ffb347;opacity:0.09;">
+                </div>
+            </div>
+            <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content text-center">
+                <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3d28a1f256a89826a7193ed1554a722e6cbf35e4.jpg"
+                    alt="Shopee Logo"
+                    style="height:90px;width:90px;object-fit:cover;border-radius:20px;margin:0 auto 1.5rem;animation:float 3s ease-in-out infinite;display:block;box-shadow:0 8px 32px rgba(238,77,45,0.4);"
+                    class="reveal">
+                <div class="reveal"
+                    style="display:inline-block;background:rgba(238,77,45,0.15);border:1px solid rgba(238,77,45,0.35);border-radius:30px;padding:4px 18px;font-size:0.78rem;font-weight:600;color:#ff7337;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">
+                    INHC · Sistemas de Informação · IFAL-Maceió</div>
+                <h1 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(2.2rem,5.5vw,4.2rem);background:linear-gradient(135deg,#ee4d2d,#ff7337,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:1rem;">
+                    Avaliação Heurística<br>App Shopee</h1>
+                <p class="reveal"
+                    style="font-size:clamp(0.85rem,1.3vw,1.1rem);color:#a1a1aa;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2rem;">
+                    Análise de Usabilidade — Método de Nielsen</p>
+                <div class="reveal"
+                    style="display:flex;justify-content:center;flex-wrap:wrap;gap:0.6rem;font-size:0.82rem;color:#d4d4d8;">
+                    <span
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:4px 14px;">Alex
+                        Rodrigo</span>
+                    <span
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:4px 14px;">Carlos
+                        Henrique</span>
+                    <span
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:4px 14px;">Isaque
+                        de Souza</span>
+                    <span
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:4px 14px;">Maria
+                        Luisa</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: INTRODUÇÃO -->
+        <div class="slide slide-2" data-slide="2">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:380px;height:380px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:260px;height:260px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem;">
+                    Sobre o trabalho</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.8vw,2.8rem);margin-bottom:1.8rem;">
+                    Introdução</h2>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ee4d2d;border-radius:12px;padding:1.4rem;">
+                        <div style="font-size:1.6rem;margin-bottom:0.6rem;">🎯</div>
+                        <div style="font-weight:600;margin-bottom:0.5rem;color:#fafafa;">Objetivo</div>
+                        <div style="font-size:0.9rem;color:#d4d4d8;line-height:1.6;">Selecionar uma plataforma digital e
+                            avaliar <strong style="color:#ff7337;">3 funcionalidades</strong> com base no método de
+                            análise heurística de Jakob Nielsen.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ff7337;border-radius:12px;padding:1.4rem;">
+                        <div style="font-size:1.6rem;margin-bottom:0.6rem;">📱</div>
+                        <div style="font-weight:600;margin-bottom:0.5rem;color:#fafafa;">Plataforma</div>
+                        <div style="font-size:0.9rem;color:#d4d4d8;line-height:1.6;">Aplicativo <strong
+                                style="color:#ff7337;">Shopee</strong> — marketplace digital focado em preços
+                            competitivos e facilidade de uso mobile.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ffb347;border-radius:12px;padding:1.4rem;">
+                        <div style="font-size:1.6rem;margin-bottom:0.6rem;">🔍</div>
+                        <div style="font-weight:600;margin-bottom:0.5rem;color:#fafafa;">Método</div>
+                        <div style="font-size:0.9rem;color:#d4d4d8;line-height:1.6;">Avaliação Heurística de Nielsen —
+                            identificação de problemas de usabilidade com base em <strong style="color:#ffb347;">10
+                                heurísticas</strong>.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ee4d2d;border-radius:12px;padding:1.4rem;">
+                        <div style="font-size:1.6rem;margin-bottom:0.6rem;">👥</div>
+                        <div style="font-weight:600;margin-bottom:0.5rem;color:#fafafa;">Grupo Avaliador</div>
+                        <div style="font-size:0.9rem;color:#d4d4d8;line-height:1.6;"><strong style="color:#ff7337;">4
+                                avaliadores</strong> independentes analisando cada funcionalidade e atribuindo graus de
+                            severidade.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: MÉTODO - ANÁLISE HEURÍSTICA -->
+        <div class="slide slide-3" data-slide="3">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:400px;height:400px;top:-100px;left:-100px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:250px;height:250px;bottom:-60px;right:-60px;background:#ffb347;opacity:0.07;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem;">
+                    Método</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:0.5rem;">
+                    Avaliação Inspeção Heurística</h2>
+                <p class="reveal" style="font-size:0.9rem;color:#a1a1aa;margin-bottom:1.4rem;">Especialistas analisam a
+                    interface com base em princípios de usabilidade previamente definidos.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;">
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">1</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Visibilidade do status do sistema</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">2</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Correspondência com o mundo real</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">3</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Controle e liberdade do usuário</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">4</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Consistência e padrões</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">5</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Prevenção de erros</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">6</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Reconhecimento em vez de memorização</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">7</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Flexibilidade e eficiência</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">8</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Design estético e minimalista</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">9</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Reconhecer, diagnosticar e recuperar erros</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.8rem;">
+                        <span
+                            style="background:linear-gradient(135deg,#ee4d2d,#ff7337);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">10</span>
+                        <span style="font-size:0.85rem;color:#d4d4d8;">Ajuda e documentação</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: GRAUS DE SEVERIDADE -->
+        <div class="slide slide-4" data-slide="4">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.09;"></div>
+                <div class="blob"
+                    style="width:230px;height:230px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.07;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem;">
+                    Método</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:1.4rem;">
+                    Graus de Severidade</h2>
+                <div style="display:flex;flex-direction:column;gap:0.65rem;">
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem 1.2rem;display:flex;align-items:center;gap:1rem;">
+                        <span
+                            style="background:rgba(100,116,139,0.4);color:#cbd5e1;font-size:1.1rem;font-weight:900;min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">1</span>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;color:#cbd5e1;">Sem problema</div>
+                            <div style="font-size:0.78rem;color:#71717a;">Não concordo que seja um problema de
+                                usabilidade</div>
+                        </div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem 1.2rem;display:flex;align-items:center;gap:1rem;">
+                        <span
+                            style="background:rgba(59,130,246,0.3);color:#93c5fd;font-size:1.1rem;font-weight:900;min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">2</span>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;color:#93c5fd;">Problema cosmético</div>
+                            <div style="font-size:0.78rem;color:#71717a;">Corrigir somente se sobrar tempo no projeto
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem 1.2rem;display:flex;align-items:center;gap:1rem;">
+                        <span
+                            style="background:rgba(234,179,8,0.3);color:#fde047;font-size:1.1rem;font-weight:900;min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">3</span>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;color:#fde047;">Problema menor</div>
+                            <div style="font-size:0.78rem;color:#71717a;">Baixa prioridade de correção</div>
+                        </div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem 1.2rem;display:flex;align-items:center;gap:1rem;">
+                        <span
+                            style="background:rgba(249,115,22,0.3);color:#fdba74;font-size:1.1rem;font-weight:900;min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">4</span>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;color:#fdba74;">Problema grave</div>
+                            <div style="font-size:0.78rem;color:#71717a;">Alta prioridade — deve ser corrigido</div>
+                        </div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(238,77,45,0.35);border-radius:10px;padding:0.85rem 1.2rem;display:flex;align-items:center;gap:1rem;">
+                        <span
+                            style="background:rgba(238,77,45,0.4);color:#fca5a5;font-size:1.1rem;font-weight:900;min-width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">5</span>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;color:#fca5a5;">Catástrofe de usabilidade
+                            </div>
+                            <div style="font-size:0.78rem;color:#71717a;">Correção imperativa antes do lançamento</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PLATAFORMA SHOPEE -->
+        <div class="slide slide-5" data-slide="5">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:480px;height:480px;top:-100px;right:-80px;background:#ee4d2d;opacity:0.12;"></div>
+                <div class="blob"
+                    style="width:280px;height:280px;bottom:-80px;left:-60px;background:#ff7337;opacity:0.09;"></div>
+                <div class="blob" style="width:180px;height:180px;top:30%;left:8%;background:#ffb347;opacity:0.07;">
+                </div>
+            </div>
+            <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content">
+                <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:2rem;align-items:center;">
+                    <div class="reveal" style="text-align:center;">
+                        <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3d28a1f256a89826a7193ed1554a722e6cbf35e4.jpg"
+                            alt="Shopee Logo"
+                            style="height:120px;width:120px;object-fit:cover;border-radius:28px;margin:0 auto 1.2rem;display:block;box-shadow:0 12px 40px rgba(238,77,45,0.45);">
+                        <div
+                            style="font-family:'Archivo Black',sans-serif;font-size:2.2rem;background:linear-gradient(135deg,#ee4d2d,#ff7337);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                            Shopee</div>
+                        <div style="font-size:0.8rem;color:#a1a1aa;margin-top:4px;">Fundada em 2015</div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;">
+                            Plataforma Selecionada</div>
+                        <h2 class="reveal"
+                            style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3.2vw,2.4rem);margin-bottom:1rem;">
+                            A Shopee</h2>
+                        <p class="reveal" style="font-size:0.9rem;color:#d4d4d8;line-height:1.7;margin-bottom:1.2rem;">
+                            Plataforma de comércio eletrônico que conecta vendedores e consumidores em um marketplace
+                            digital. Permite a compra e venda de eletrônicos, roupas e itens para casa.</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;">
+                            <div class="reveal"
+                                style="background:rgba(238,77,45,0.1);border:1px solid rgba(238,77,45,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                                <div style="font-size:1.3rem;font-weight:700;color:#ee4d2d;">2015</div>
+                                <div style="font-size:0.75rem;color:#a1a1aa;">Fundação</div>
+                            </div>
+                            <div class="reveal"
+                                style="background:rgba(255,115,55,0.1);border:1px solid rgba(255,115,55,0.2);border-radius:10px;padding:0.8rem;text-align:center;">
+                                <div style="font-size:1.3rem;font-weight:700;color:#ff7337;">Mobile</div>
+                                <div style="font-size:0.75rem;color:#a1a1aa;">Foco em app</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: FUNCIONALIDADES AVALIADAS -->
+        <div class="slide slide-6" data-slide="6">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:360px;height:360px;top:-90px;right:-70px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:240px;height:240px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.07;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem;">
+                    O que foi avaliado</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.8vw,2.8rem);margin-bottom:1.8rem;">
+                    Funcionalidades Avaliadas</h2>
+                <div style="display:flex;flex-direction:column;gap:1rem;">
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ee4d2d;border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.2rem;">
+                        <span style="font-size:2rem;flex-shrink:0;">🏠</span>
+                        <div>
+                            <div style="font-weight:700;font-size:1rem;margin-bottom:3px;">Funcionalidade 1</div>
+                            <div style="font-size:0.9rem;color:#d4d4d8;">Encontrar um produto navegando pelas opções da
+                                tela inicial</div>
+                        </div>
+                        <span
+                            style="margin-left:auto;background:rgba(238,77,45,0.15);border:1px solid rgba(238,77,45,0.3);border-radius:20px;padding:3px 12px;font-size:0.75rem;color:#ff7337;white-space:nowrap;">5
+                            problemas</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ff7337;border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.2rem;">
+                        <span style="font-size:2rem;flex-shrink:0;">🛍️</span>
+                        <div>
+                            <div style="font-weight:700;font-size:1rem;margin-bottom:3px;">Funcionalidade 2</div>
+                            <div style="font-size:0.9rem;color:#d4d4d8;">Visualizar os detalhes de um produto</div>
+                        </div>
+                        <span
+                            style="margin-left:auto;background:rgba(255,115,55,0.15);border:1px solid rgba(255,115,55,0.3);border-radius:20px;padding:3px 12px;font-size:0.75rem;color:#ff7337;white-space:nowrap;">4
+                            problemas</span>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-left:4px solid #ffb347;border-radius:12px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.2rem;">
+                        <span style="font-size:2rem;flex-shrink:0;">🛒</span>
+                        <div>
+                            <div style="font-weight:700;font-size:1rem;margin-bottom:3px;">Funcionalidade 3</div>
+                            <div style="font-size:0.9rem;color:#d4d4d8;">Finalizar uma compra a partir da tela do
+                                carrinho (até a etapa de pagamento)</div>
+                        </div>
+                        <span
+                            style="margin-left:auto;background:rgba(255,179,71,0.15);border:1px solid rgba(255,179,71,0.3);border-radius:20px;padding:3px 12px;font-size:0.75rem;color:#ffb347;white-space:nowrap;">4
+                            problemas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: DIVISOR - FUNCIONALIDADE 1 -->
+        <div class="slide slide-7" data-slide="7">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:500px;height:500px;top:-120px;right:-100px;background:#ee4d2d;opacity:0.13;"></div>
+                <div class="blob"
+                    style="width:300px;height:300px;bottom:-80px;left:-70px;background:#ff7337;opacity:0.1;"></div>
+                <div class="blob" style="width:200px;height:200px;top:35%;left:10%;background:#ffb347;opacity:0.08;">
+                </div>
+            </div>
+            <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content text-center">
+                <div class="reveal" style="font-size:3rem;margin-bottom:1rem;">🏠</div>
+                <div class="reveal"
+                    style="display:inline-block;background:rgba(238,77,45,0.15);border:1px solid rgba(238,77,45,0.3);border-radius:30px;padding:4px 18px;font-size:0.78rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;">
+                    Funcionalidade 1</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,4.5vw,3.2rem);background:linear-gradient(135deg,#ee4d2d,#ff7337,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">
+                    Tela Inicial</h2>
+                <p class="reveal" style="font-size:1rem;color:#a1a1aa;max-width:600px;margin:0 auto;">Encontrar um
+                    produto navegando pelas opções da tela inicial</p>
+                <div class="reveal"
+                    style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:6px 16px;font-size:0.82rem;color:#a1a1aa;">
+                    <span style="color:#ee4d2d;font-weight:700;">5 problemas</span> identificados
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: F1 - PROBLEMA 1 -->
+        <div class="slide slide-8" data-slide="8">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Tela Inicial · Problema 1/5</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Divergência de Preços <span style="color:#a1a1aa;font-size:0.7em;">(Preço "Isca")</span></h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">O preço promocional ou mínimo
+                                exibido não corresponde ao produto da foto, referindo-se a variações baratas do item.
+                            </p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H5 Prev. Erros</span>
+                                <span class="heuristic-pill">H10 Documentação</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">4,0</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4 e 4</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🔴 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: F1 - PROBLEMA 2 -->
+        <div class="slide slide-9" data-slide="9">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Tela Inicial · Problema 2/5</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Fluxo de Vídeo Disruptivo</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Cards de vídeo abrem em tela
+                                cheia ou players prioritários em vez de direcionar à página do produto esperada.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H3 Controle</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H5 Prev. Erros</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">3,5</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4 e 3</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🟠 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: F1 - PROBLEMA 3 -->
+        <div class="slide slide-10" data-slide="10">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Tela Inicial · Problema 3/5</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Conflitos de Navegação e Busca</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Duas barras de busca simultâneas
+                                e excesso de filtros com termos pouco claros (ex: "full"), causando confusão na
+                                navegação.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H10 Documentação</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">3,5</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4 e 3</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🟠 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: F1 - PROBLEMA 4 -->
+        <div class="slide slide-11" data-slide="11">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Tela Inicial · Problema 4/5</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Sobrecarga de Informação e Visual</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Excesso de elementos como
+                                banners, lives e 11 atalhos no topo gerando poluição visual e sobrecarga cognitiva.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H8 Design Minimalista</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fde047;" class="stat-glow">3,0</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 3 e 3</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fde047;display:inline-block;">
+                                🟡 Problema Menor</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: F1 - PROBLEMA 5 -->
+        <div class="slide slide-12" data-slide="12">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Tela Inicial · Problema 5/5</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Inconsistência de Ícones</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Atalhos misturados sem relação
+                                direta entre si, quebrando a organização e dificultando a localização de categorias.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fde047;" class="stat-glow">3,0</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliador: 3</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fde047;display:inline-block;">
+                                🟡 Problema Menor</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: DIVISOR - FUNCIONALIDADE 2 -->
+        <div class="slide slide-13" data-slide="13">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:480px;height:480px;top:-110px;left:-90px;background:#ff7337;opacity:0.13;"></div>
+                <div class="blob"
+                    style="width:300px;height:300px;bottom:-80px;right:-70px;background:#ee4d2d;opacity:0.1;"></div>
+                <div class="blob" style="width:200px;height:200px;top:35%;right:12%;background:#ffb347;opacity:0.08;">
+                </div>
+            </div>
+            <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content text-center">
+                <div class="reveal" style="font-size:3rem;margin-bottom:1rem;">🛍️</div>
+                <div class="reveal"
+                    style="display:inline-block;background:rgba(255,115,55,0.15);border:1px solid rgba(255,115,55,0.3);border-radius:30px;padding:4px 18px;font-size:0.78rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;">
+                    Funcionalidade 2</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,4.5vw,3.2rem);background:linear-gradient(135deg,#ff7337,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">
+                    Detalhes do Produto</h2>
+                <p class="reveal" style="font-size:1rem;color:#a1a1aa;max-width:600px;margin:0 auto;">Visualizar os
+                    detalhes de um produto</p>
+                <div class="reveal"
+                    style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:6px 16px;font-size:0.82rem;color:#a1a1aa;">
+                    <span style="color:#ff7337;font-weight:700;">4 problemas</span> identificados
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: F2 - PROBLEMA 1 -->
+        <div class="slide slide-14" data-slide="14">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ff7337;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Detalhes do Produto · Problema 1/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Poluição de Elementos de Interface</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Excesso de informações e ícones
+                                grandes (como compartilhar) que podem fazer o usuário se perder na tela.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H8 Design Minimalista</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">4,0</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliador: 4</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🔴 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: F2 - PROBLEMA 2 -->
+        <div class="slide slide-15" data-slide="15">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ff7337;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Detalhes do Produto · Problema 2/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Dificuldade de Acesso à Descrição</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Informações técnicas escondidas
+                                em menus retráteis (accordion) ou muito abaixo de outros blocos de conteúdo.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H5 Prev. Erros</span>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H8 Minimalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">3,7</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 3, 4 e 4</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🔴 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: F2 - PROBLEMA 3 -->
+        <div class="slide slide-16" data-slide="16">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ff7337;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Detalhes do Produto · Problema 3/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Rótulos e Ações Inconsistentes</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Botões sem ação (ex: "aplicar"),
+                                termos truncados e ícones desnecessários na visualização de imagem.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H8 Minimalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fdba74;" class="stat-glow">3,7</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4, 5 e 2</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fdba74;display:inline-block;">
+                                🔴 Problema Grave</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: F2 - PROBLEMA 4 -->
+        <div class="slide slide-17" data-slide="17">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ff7337;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Detalhes do Produto · Problema 4/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Falta de Padrão em Fotos e Textos</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Mistura de fotos reais com artes
+                                promocionais e descrições sem padrão estrutural entre produtos.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H8 Minimalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fde047;" class="stat-glow">3,0</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 3 e 3</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fde047;display:inline-block;">
+                                🟡 Problema Menor</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: DIVISOR - FUNCIONALIDADE 3 -->
+        <div class="slide slide-18" data-slide="18">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:480px;height:480px;top:-110px;right:-90px;background:#ffb347;opacity:0.12;"></div>
+                <div class="blob"
+                    style="width:300px;height:300px;bottom:-80px;left:-70px;background:#ff7337;opacity:0.1;"></div>
+                <div class="blob" style="width:200px;height:200px;top:35%;left:10%;background:#ee4d2d;opacity:0.08;">
+                </div>
+            </div>
+            <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content text-center">
+                <div class="reveal" style="font-size:3rem;margin-bottom:1rem;">🛒</div>
+                <div class="reveal"
+                    style="display:inline-block;background:rgba(255,179,71,0.15);border:1px solid rgba(255,179,71,0.3);border-radius:30px;padding:4px 18px;font-size:0.78rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;">
+                    Funcionalidade 3</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,4.5vw,3.2rem);background:linear-gradient(135deg,#ffb347,#ff7337);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">
+                    Finalizar Compra</h2>
+                <p class="reveal" style="font-size:1rem;color:#a1a1aa;max-width:600px;margin:0 auto;">Finalizar uma
+                    compra a partir da tela do carrinho até a etapa de pagamento</p>
+                <div class="reveal"
+                    style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:6px 16px;font-size:0.82rem;color:#a1a1aa;">
+                    <span style="color:#ffb347;font-weight:700;">4 problemas</span> identificados
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 19: F3 - PROBLEMA 1 -->
+        <div class="slide slide-19" data-slide="19">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ffb347;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Finalizar Compra · Problema 1/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Rótulos e Fluxos Confusos</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Ícones sem texto explicativo,
+                                redundância de cupons/moedas e recursos de acessibilidade em inglês no app português.
+                            </p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H8 Minimalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fca5a5;" class="stat-glow">4,6</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4, 5, 5, 5, 4</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(238,77,45,0.2);border:1px solid rgba(238,77,45,0.4);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fca5a5;display:inline-block;">
+                                🚨 Catástrofe</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 20: F3 - PROBLEMA 2 -->
+        <div class="slide slide-20" data-slide="20">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ffb347;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Finalizar Compra · Problema 2/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Interface e Alvos Difíceis</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Botões de quantidade, edição e
+                                alteração de parcelas muito reduzidos para o toque, dificultando a interação touch.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H3 Controle</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H5 Prev. Erros</span>
+                                <span class="heuristic-pill">H7 Flexibilidade</span>
+                                <span class="heuristic-pill">H9 Rec. Erros</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fca5a5;" class="stat-glow">4,5</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 3, 5, 5, 5</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(238,77,45,0.2);border:1px solid rgba(238,77,45,0.4);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fca5a5;display:inline-block;">
+                                🚨 Catástrofe</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 21: F3 - PROBLEMA 3 -->
+        <div class="slide slide-21" data-slide="21">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ffb347;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Finalizar Compra · Problema 3/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Inconsistência de Dados e Layout</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">CPF e endereços exibidos de
+                                forma truncada e falta de hierarquia visual entre lojas no checkout.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H2 Mundo Real</span>
+                                <span class="heuristic-pill">H4 Consistência</span>
+                                <span class="heuristic-pill">H5 Prev. Erros</span>
+                                <span class="heuristic-pill">H6 Reconhecimento</span>
+                                <span class="heuristic-pill">H8 Minimalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#fde047;" class="stat-glow">2,8</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 4, 3, 2, 2</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#fde047;display:inline-block;">
+                                🟡 Problema Menor</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 22: F3 - PROBLEMA 4 -->
+        <div class="slide slide-22" data-slide="22">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:350px;height:350px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
+                <div class="blob"
+                    style="width:220px;height:220px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.06;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.72rem;font-weight:600;color:#ffb347;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:0.4rem;">
+                    Finalizar Compra · Problema 4/4</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:1rem;">
+                    Gestão de Itens e Carrinho</h2>
+                <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;align-items:start;">
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Descrição</div>
+                            <p style="font-size:0.88rem;color:#d4d4d8;line-height:1.6;">Inexistência de função para
+                                limpar todo o carrinho de uma vez e falta de clareza no botão "editar" superior.</p>
+                        </div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;">
+                                Heurísticas Feridas</div>
+                            <div>
+                                <span class="heuristic-pill">H1 Visibilidade</span>
+                                <span class="heuristic-pill">H3 Controle</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="reveal"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem;margin-bottom:0.8rem;text-align:center;">
+                            <div
+                                style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                                Severidade Média</div>
+                            <div style="font-size:3rem;font-weight:900;color:#93c5fd;" class="stat-glow">2,5</div>
+                            <div style="font-size:0.78rem;color:#a1a1aa;">Avaliadores: 3 e 2</div>
+                            <div
+                                style="margin-top:0.6rem;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#93c5fd;display:inline-block;">
+                                🔵 Problema Cosmético</div>
+                        </div>
+                        <div class="reveal image-placeholder" style="height:120px;">
+                            <img src="toast suces.jpg" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 23: CONSOLIDAÇÃO GERAL -->
+        <div class="slide slide-23" data-slide="23">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:380px;height:380px;top:-90px;right:-80px;background:#ee4d2d;opacity:0.09;"></div>
+                <div class="blob"
+                    style="width:260px;height:260px;bottom:-70px;left:-60px;background:#ffb347;opacity:0.07;"></div>
+            </div>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;">
+                    Resultados</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:1.2rem;">
+                    Consolidação das Avaliações</h2>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-bottom:1rem;">
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-align:center;">
+                        <div
+                            style="font-size:0.7rem;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">
+                            🏠 Tela Inicial</div>
+                        <div style="font-size:0.8rem;color:#d4d4d8;margin-bottom:0.5rem;">Maior problema</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:#fdba74;">4,0</div>
+                        <div style="font-size:0.72rem;color:#a1a1aa;">Divergência de Preços</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-align:center;">
+                        <div
+                            style="font-size:0.7rem;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">
+                            🛍️ Detalhes</div>
+                        <div style="font-size:0.8rem;color:#d4d4d8;margin-bottom:0.5rem;">Maior problema</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:#fdba74;">4,0</div>
+                        <div style="font-size:0.72rem;color:#a1a1aa;">Poluição de Interface</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(238,77,45,0.1);border:1px solid rgba(238,77,45,0.25);border-radius:12px;padding:1rem;text-align:center;">
+                        <div
+                            style="font-size:0.7rem;color:#ee4d2d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">
+                            🛒 Carrinho</div>
+                        <div style="font-size:0.8rem;color:#d4d4d8;margin-bottom:0.5rem;">Maior problema</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:#fca5a5;">4,6</div>
+                        <div style="font-size:0.72rem;color:#a1a1aa;">Rótulos Confusos</div>
+                    </div>
+                </div>
+                <div class="reveal"
+                    style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1rem;">
+                    <div
+                        style="font-size:0.75rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.8rem;">
+                        Severidade por problema (média) — métrica: média aritmética das avaliações</div>
+                    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                        <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                            <span style="color:#fca5a5;min-width:80px;">🛒 4,6</span>
+                            <div
+                                style="flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+                                <div class="bar-fill" data-width="92"
+                                    style="width:0%;height:100%;background:linear-gradient(90deg,#ee4d2d,#fca5a5);border-radius:4px;">
+                                </div>
+                            </div>
+                            <span style="color:#a1a1aa;min-width:140px;">Rótulos Confusos</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                            <span style="color:#fca5a5;min-width:80px;">🛒 4,5</span>
+                            <div
+                                style="flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+                                <div class="bar-fill" data-width="90"
+                                    style="width:0%;height:100%;background:linear-gradient(90deg,#ee4d2d,#fca5a5);border-radius:4px;">
+                                </div>
+                            </div>
+                            <span style="color:#a1a1aa;min-width:140px;">Alvos Difíceis</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                            <span style="color:#fdba74;min-width:80px;">🏠 4,0</span>
+                            <div
+                                style="flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+                                <div class="bar-fill" data-width="80"
+                                    style="width:0%;height:100%;background:linear-gradient(90deg,#ff7337,#fdba74);border-radius:4px;">
+                                </div>
+                            </div>
+                            <span style="color:#a1a1aa;min-width:140px;">Preço "Isca"</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                            <span style="color:#fdba74;min-width:80px;">🛍️ 4,0</span>
+                            <div
+                                style="flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+                                <div class="bar-fill" data-width="80"
+                                    style="width:0%;height:100%;background:linear-gradient(90deg,#ff7337,#fdba74);border-radius:4px;">
+                                </div>
+                            </div>
+                            <span style="color:#a1a1aa;min-width:140px;">Poluição Interface</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                            <span style="color:#fdba74;min-width:80px;">🛍️ 3,7</span>
+                            <div
+                                style="flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;">
+                                <div class="bar-fill" data-width="74"
+                                    style="width:0%;height:100%;background:linear-gradient(90deg,#ff7337,#fdba74);border-radius:4px;">
+                                </div>
+                            </div>
+                            <span style="color:#a1a1aa;min-width:140px;">Acesso à Descrição</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 24: CONCLUSÃO -->
+        <div class="slide slide-24" data-slide="24">
+            <div class="gradient-mesh">
+                <div class="blob"
+                    style="width:520px;height:520px;top:-120px;right:-100px;background:#ee4d2d;opacity:0.14;"></div>
+                <div class="blob"
+                    style="width:320px;height:320px;bottom:-90px;left:-70px;background:#ff7337;opacity:0.11;"></div>
+                <div class="blob" style="width:220px;height:220px;top:40%;left:10%;background:#ffb347;opacity:0.09;">
+                </div>
+            </div>
+            <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+            <div class="content">
+                <div class="reveal"
+                    style="font-size:0.75rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;text-align:center;">
+                    Considerações Finais</div>
+                <h2 class="reveal"
+                    style="font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,4.5vw,3rem);text-align:center;margin-bottom:1.5rem;background:linear-gradient(135deg,#ee4d2d,#ff7337,#ffb347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                    Conclusão</h2>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+                    <div class="reveal"
+                        style="background:rgba(238,77,45,0.08);border:1px solid rgba(238,77,45,0.2);border-left:4px solid #ee4d2d;border-radius:12px;padding:1.1rem;">
+                        <div style="font-size:1.2rem;margin-bottom:0.4rem;">🚨</div>
+                        <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;color:#fca5a5;">Prioridade
+                            Máxima</div>
+                        <div style="font-size:0.82rem;color:#d4d4d8;line-height:1.5;">Rótulos confusos e alvos de toque
+                            difíceis no carrinho (média 4,5–4,6) exigem correção imediata.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,115,55,0.08);border:1px solid rgba(255,115,55,0.2);border-left:4px solid #ff7337;border-radius:12px;padding:1.1rem;">
+                        <div style="font-size:1.2rem;margin-bottom:0.4rem;">⚠️</div>
+                        <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;color:#fdba74;">Alta
+                            Prioridade</div>
+                        <div style="font-size:0.82rem;color:#d4d4d8;line-height:1.5;">Preço "isca" e poluição de
+                            interface (média 4,0) impactam diretamente a confiança do usuário.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,179,71,0.08);border:1px solid rgba(255,179,71,0.2);border-left:4px solid #ffb347;border-radius:12px;padding:1.1rem;">
+                        <div style="font-size:1.2rem;margin-bottom:0.4rem;">📋</div>
+                        <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;color:#ffb347;">13 Problemas
+                        </div>
+                        <div style="font-size:0.82rem;color:#d4d4d8;line-height:1.5;">Identificados nas 3
+                            funcionalidades, com múltiplas heurísticas de Nielsen sendo violadas.</div>
+                    </div>
+                    <div class="reveal"
+                        style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-left:4px solid #a1a1aa;border-radius:12px;padding:1.1rem;">
+                        <div style="font-size:1.2rem;margin-bottom:0.4rem;">💡</div>
+                        <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.4rem;color:#d4d4d8;">Heurística
+                            Mais Violada</div>
+                        <div style="font-size:0.82rem;color:#d4d4d8;line-height:1.5;">H4 (Consistência e Padrões) é a
+                            heurística com mais violações em todas as funcionalidades avaliadas.</div>
+                    </div>
+                </div>
+                <div class="reveal" style="text-align:center;font-size:0.82rem;color:#71717a;">INHC · Sistemas de
+                    Informação · IFAL-Maceió · 2026</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+        <div class="slide-dots" id="dots"></div>
+        <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+        <span class="slide-counter" id="counter">1 / 24</span>
+    </div>
+
+    <script>
+        let current = 1;
+        const total = document.querySelectorAll('.slide').length;
+        const dotsContainer = document.getElementById('dots');
+        const counter = document.getElementById('counter');
+        for (let i = 1; i <= total; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 1 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+        function goToSlide(n) {
+            const prev = document.querySelector('.slide.active');
+            const next = document.querySelector('.slide[data-slide="' + n + '"]');
+            if (prev) prev.classList.remove('active');
+            if (next) { next.classList.add('active'); animateSlide(next); }
+            current = n; updateNav();
+        }
+        function changeSlide(dir) { let n = current + dir; if (n < 1) n = total; if (n > total) n = 1; goToSlide(n); }
+        function updateNav() {
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current));
+            counter.textContent = current + ' / ' + total;
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+        });
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+        function animateSlide(slide) {
+            slide.querySelectorAll('.reveal').forEach((el, i) => {
+                el.style.transition = 'none';
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(18px)';
+                el.offsetHeight;
+                const delay = i * 0.07;
+                el.style.transition = 'opacity 0.35s ease ' + delay + 's, transform 0.35s ease ' + delay + 's';
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0px)';
+            });
+            slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar, i) => {
+                bar.classList.add('fill-init');
+                bar.style.width = '0%';
+                bar.style.transition = 'width 0.6s ease ' + (i * 0.1 + 0.3) + 's';
+                bar.offsetHeight;
+                bar.style.width = bar.dataset.width + '%';
+            });
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const s = document.querySelector('.mouse-spotlight');
+            if (s) s.style.background = 'radial-gradient(600px circle at ' + e.clientX + 'px ' + e.clientY + 'px, rgba(238,77,45,0.05), transparent 40%)';
+        });
+
+        window.initParticles = function (canvas, opts) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+            const count = opts.count || 40;
+            const interactive = opts.interactive !== false;
+            let mx = -1000, my = -1000;
+            const particles = Array.from({ length: count }, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2 + 0.6, alpha: Math.random() * 0.3 + 0.08
+            }));
+            if (interactive) {
+                canvas.addEventListener('mousemove', (e) => { const r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+                canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; });
+            }
+            (function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    if (interactive) { const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx * dx + dy * dy); if (dist < 100) { const f = (100 - dist) / 100 * 1.5; p.vx += (dx / dist) * f * 0.1; p.vy += (dy / dist) * f * 0.1; } }
+                    p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(238,77,45,' + p.alpha + ')'; ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            })();
+        };
+
+        document.querySelectorAll('.particle-canvas').forEach(c => initParticles(c, { interactive: true, count: 50 }));
+        document.querySelectorAll('.particle-canvas-ambient').forEach(c => initParticles(c, { interactive: false, count: 20 }));
+
+        try { animateSlide(document.querySelector('.slide.active')); } catch (e) { }
+    </script>
+</body>
+
+</html>
