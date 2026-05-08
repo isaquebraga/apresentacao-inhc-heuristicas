@@ -60,9 +60,9 @@
         /* .image-placeholder removido - substituído por img-thumb-wrap */
         /* Lightbox */
         /* ── Image thumbnails ── */
-        .img-thumb-wrap { position:relative; overflow:hidden; border-radius:10px; cursor:zoom-in; background:#111; height:110px; }
-        .img-thumb-wrap img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform 0.3s ease; }
-        .img-thumb-wrap:hover img { transform:scale(1.04); }
+        .img-thumb-wrap { position:relative; overflow:hidden; border-radius:12px; cursor:zoom-in; background:#0d0d0d; display:flex; align-items:flex-start; justify-content:center; }
+        .img-thumb-wrap img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; transition:transform 0.3s ease; }
+        .img-thumb-wrap:hover img { transform:scale(1.02); }
         .img-thumb-wrap .zoom-hint { position:absolute; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; border-radius:10px; font-size:1.5rem; color:#fff; pointer-events:none; }
         .img-thumb-wrap:hover .zoom-hint { opacity:1; }
         /* ── Lightbox ── */
@@ -327,14 +327,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-01</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-01</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F1-01</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Sobrecarga Visual na Tela Inicial</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Excesso de elementos simultâneos (imagens, vídeos, lives de afiliado, cards de ofertas, banners automáticos, animações piscando) aliado a excesso de filtros de busca - incluindo o filtro 'full', cuja funcionalidade não é comunicada com clareza.</p>
@@ -344,23 +345,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H6 Reconhecimento</span><span class="heuristic-pill">H7 Flexibilidade</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Reduzir elementos simultâneos na tela inicial com hierarquia visual clara. Revisar filtros e substituir rótulos ambíguos por descrições claras ou tooltips.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-01')">
-                    <img src="imgs/f1-01.jpg" alt="Evidência F1-01" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-01')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f1-01.jpg" alt="Evidência F1-01" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -371,14 +371,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-02</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-02</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F1-02</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Fluxo de Vídeo Disruptivo</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Ao clicar em card de produto com vídeo, o sistema abre um player em tela cheia em vez de redirecionar para a página do produto. Para comprar, o usuário realiza um segundo clique em card reduzido dentro do player. O fluxo quebra a expectativa de navegação direta.</p>
@@ -388,23 +389,22 @@
                     <div><span class="heuristic-pill">H3 Controle</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span><span class="heuristic-pill">H7 Flexibilidade</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Garantir que cards de produto redirecionem diretamente para a página do produto. O vídeo deve ser elemento secundário dentro da página, não a tela primária.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-02')">
-                    <img src="imgs/f1-02.jpg" alt="Evidência F1-02" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-02')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f1-02.jpg" alt="Evidência F1-02" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -415,14 +415,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-03</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-03</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F1-03</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Divergência de Preços - "Preço Isca"</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">O preço promocional exibido no card não corresponde à imagem em destaque. O usuário vê a foto de um modelo/cor com preço atrativo, mas ao clicar descobre que o preço se refere a uma variação diferente do produto. Identificado por Avaliadores 1 e 4.</p>
@@ -432,23 +433,22 @@
                     <div><span class="heuristic-pill">H1 Visibilidade</span><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span><span class="heuristic-pill">H9 Rec. Erros</span><span class="heuristic-pill">H10 Documentação</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Garantir correspondência direta entre imagem e preço no card. Exibir o range completo de preços das variações desde a listagem, evitando criar expectativas falsas.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-03')">
-                    <img src="imgs/f1-03.jpg" alt="Evidência F1-03" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-03')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f1-03.jpg" alt="Evidência F1-03" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -459,14 +459,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-04</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-04</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F1-04</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Inconsistência Visual de Elementos</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Falta de distinção visual entre elementos de natureza diferente: ícones de atalho sem relação lógica são misturados no mesmo campo, e cards de vídeo são exibidos com aparência muito semelhante à de cards de produto nos resultados de busca.</p>
@@ -476,23 +477,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Agrupar atalhos por categorias lógicas com separadores e rótulos. Diferenciar visualmente cards de vídeo e produto com ícones distintos ou separá-los em seções diferentes.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-04')">
-                    <img src="imgs/f1-04.jpg" alt="Evidência F1-04" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-04')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f1-04.jpg" alt="Evidência F1-04" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -503,14 +503,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ee4d2d;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-05</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ee4d2d;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Tela Inicial · F1-05</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F1-05</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Duas Barras de Busca Simultâneas</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Duas barras de busca distintas - uma geral e outra dentro da tela de produtos oficiais - quebram o modelo mental do usuário, que espera uma única busca com filtros aplicados depois.</p>
@@ -520,23 +521,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ee4d2d;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Unificar a experiência de busca em uma única barra com filtros avançados, respeitando o modelo mental consolidado de e-commerce.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-05')">
-                    <img src="imgs/f1-05.jpg" alt="Evidência F1-05" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f1-05')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f1-05.jpg" alt="Evidência F1-05" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -565,14 +565,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-01</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-01</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F2-01</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Hierarquia de Informações Inadequada</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Descrição e especificações técnicas ficam posicionadas abaixo de avaliações, vídeos, produtos semelhantes e perfil da loja - distantes do título. As especificações estão em accordion sem destaque adequado. O usuário rola excessivamente, podendo comprar o produto errado ou desistir.</p>
@@ -582,23 +583,22 @@
                     <div><span class="heuristic-pill">H1 Visibilidade</span><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span><span class="heuristic-pill">H6 Reconhecimento</span><span class="heuristic-pill">H7 Flexibilidade</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Reorganizar a página: imagens > preço > variações > botão de compra > descrição/especificações > avaliações > relacionados. Destacar o accordion de especificações com contraste e ícone de expansão claro.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-01')">
-                    <img src="imgs/f2-01.jpg" alt="Evidência F2-01" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-01')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f2-01.jpg" alt="Evidência F2-01" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -609,14 +609,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-02</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-02</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F2-02</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Seção 'Especificação' - Múltiplos Problemas</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">O texto ao lado do rótulo é truncado sem indicar o que acontecerá ao clicar; o botão 'Aplicar' não faz sentido no contexto e não gera ação nem feedback; informações exibidas são redundantes ou ambíguas (ex: 'Estoque disponível', 'Tamanho do pacote: 1M'). Gera confusão, quebra de expectativa e perda de confiança.</p>
@@ -626,23 +627,22 @@
                     <div><span class="heuristic-pill">H1 Visibilidade</span><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H6 Reconhecimento</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fca5a5;">5</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">5 - Catastrófico</div>
                     <div style="background:rgba(238,77,45,0.2);border:1px solid 🚨 Catastrófico;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fca5a5;display:inline-block;">🚨 Catastrófico</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Revisar completamente a seção: rótulos claros com indicador de expansão; remover o botão 'Aplicar' ou substituí-lo por ação com feedback real; eliminar informações redundantes e ambíguas.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-02')">
-                    <img src="imgs/f2-02.jpg" alt="Evidência F2-02" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-02')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f2-02.jpg" alt="Evidência F2-02" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -653,14 +653,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-03</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-03</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F2-03</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Ícones Fora de Contexto na Galeria</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Na visualização de imagem do produto, ícones de 'pesquisar' e 'carrinho' aparecem sem razão de uso naquele contexto. Um ícone de 'compartilhar' desproporcional ocupa a parte inferior, quebrando o padrão visual do sistema.</p>
@@ -670,23 +671,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#93c5fd;">2</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">2 - Pequeno</div>
                     <div style="background:rgba(59,130,246,0.15);border:1px solid 🔵 Baixa Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#93c5fd;display:inline-block;">🔵 Baixa Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Exibir apenas controles relevantes na tela de visualização de imagem (fechar, navegar). Padronizar tamanho e posição dos ícones em toda a interface.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-03')">
-                    <img src="imgs/f2-03.jpg" alt="Evidência F2-03" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-03')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f2-03.jpg" alt="Evidência F2-03" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -697,14 +697,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ff7337;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-04</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ff7337;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Detalhes do Produto · F2-04</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F2-04</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Falta de Padrão na Galeria de Imagens</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Fotos na galeria do produto misturam imagens reais, artes promocionais, banners com texto e fotos de embalagem sem padrão visual. O usuário não distingue qual imagem representa o produto real, gerando expectativas erradas e desconfiança antes da compra.</p>
@@ -714,23 +715,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ff7337;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Definir padrão de curadoria para imagens de produto. Separar ou sinalizar claramente fotos reais do produto e artes promocionais.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-04')">
-                    <img src="imgs/f2-04.jpg" alt="Evidência F2-04" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f2-04')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f2-04.jpg" alt="Evidência F2-04" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -759,14 +759,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-01</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-01</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-01</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Botão Principal Bloqueado Após Seleção de Parcelas</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Após escolher cartão e parcelas, o botão principal perde a função de clique geral e obriga o usuário a acertar um alvo muito pequeno ('Alterar parcelas') para corrigir sua escolha.</p>
@@ -776,23 +777,22 @@
                     <div><span class="heuristic-pill">H1 Visibilidade</span><span class="heuristic-pill">H3 Controle</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span><span class="heuristic-pill">H7 Flexibilidade</span><span class="heuristic-pill">H9 Rec. Erros</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Manter o botão principal clicável para edição após a seleção, ou exibir um botão 'Editar' com tamanho adequado (mínimo 44×44px).</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-01')">
-                    <img src="imgs/f3-01.jpg" alt="Evidência F3-01" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-01')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-01.jpg" alt="Evidência F3-01" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -803,14 +803,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-02</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-02</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-02</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Botões de Quantidade Inacessíveis</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Botões de quantidade no carrinho são muito pequenos e difíceis de tocar - problema de acessibilidade e usabilidade em dispositivos móveis.</p>
@@ -820,23 +821,22 @@
                     <div><span class="heuristic-pill">H5 Prev. Erros</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fca5a5;">5</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">5 - Catastrófico</div>
                     <div style="background:rgba(238,77,45,0.2);border:1px solid 🚨 Catastrófico;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fca5a5;display:inline-block;">🚨 Catastrófico</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Aumentar a área de toque dos botões de quantidade para no mínimo 44×44px, seguindo as diretrizes de acessibilidade móvel (WCAG 2.1 / Apple HIG / Material Design).</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-02')">
-                    <img src="imgs/f3-02.jpg" alt="Evidência F3-02" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-02')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-02.jpg" alt="Evidência F3-02" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -847,14 +847,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-03</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-03</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-03</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Opção 'Similar' Fora de Contexto no Carrinho</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Botão 'Editar' nos itens abre opções 'Similar/Deletar'. A opção 'Similar' redireciona para uma busca de produtos - ação totalmente fora de contexto em um fluxo de finalização de compra.</p>
@@ -864,23 +865,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fca5a5;">5</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">5 - Catastrófico</div>
                     <div style="background:rgba(238,77,45,0.2);border:1px solid 🚨 Catastrófico;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fca5a5;display:inline-block;">🚨 Catastrófico</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Remover a opção 'Similar' do contexto do carrinho. Restringir ações de edição ao que faz sentido: alterar quantidade, variação ou remover item.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-03')">
-                    <img src="imgs/f3-03.jpg" alt="Evidência F3-03" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-03')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-03.jpg" alt="Evidência F3-03" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -891,14 +891,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-04</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-04</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-04</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Campos de Cupom Duplicados</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Campos de cupom duplicados: cada item tem campo de cupom de loja e há outro campo geral no rodapé, ambos com o mesmo ícone. Gera confusão e força o usuário a verificar a informação duas vezes.</p>
@@ -908,23 +909,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fca5a5;">5</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">5 - Catastrófico</div>
                     <div style="background:rgba(238,77,45,0.2);border:1px solid 🚨 Catastrófico;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fca5a5;display:inline-block;">🚨 Catastrófico</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Unificar aplicação de cupons em uma única seção bem identificada. Diferenciar visualmente cupons de loja e cupons gerais com rótulos e ícones distintos.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-04')">
-                    <img src="imgs/f3-04.jpg" alt="Evidência F3-04" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-04')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-04.jpg" alt="Evidência F3-04" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -935,14 +935,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-05</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-05</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-05</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Botão Flutuante 'See Original' em Inglês</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Botão flutuante 'See Original' aparece em inglês (ao invés do idioma do sistema), posiciona-se à frente de botões importantes e torna-se desnecessário pois a Shopee exige tradução dos anúncios.</p>
@@ -952,23 +953,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H8 Minimalismo</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fca5a5;">5</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">5 - Catastrófico</div>
                     <div style="background:rgba(238,77,45,0.2);border:1px solid 🚨 Catastrófico;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fca5a5;display:inline-block;">🚨 Catastrófico</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Remover o botão flutuante ou relocá-lo para um menu de opções secundárias. Garantir que recursos de acessibilidade respeitem o idioma padrão do sistema.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-05')">
-                    <img src="imgs/f3-05.jpg" alt="Evidência F3-05" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-05')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-05.jpg" alt="Evidência F3-05" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -979,14 +979,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-06</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-06</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-06</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Inconsistência Visual dos Checkboxes e Cards</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Checkboxes de loja e itens não possuem hierarquia - falta indentação para itens subordinados. O layout dos cards de item é inconsistente: alguns exibem a tag 'full' e informações da Shopee, outros mostram apenas o nome da loja com tags diferentes.</p>
@@ -996,23 +997,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Aplicar indentação nos checkboxes de itens filhos e definir pesos visuais distintos para loja vs. item. Estabelecer e aplicar um template único para cada card de item.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-06')">
-                    <img src="imgs/f3-06.jpg" alt="Evidência F3-06" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-06')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-06.jpg" alt="Evidência F3-06" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -1023,14 +1023,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-07</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-07</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-07</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Confirmação de Exclusão Inconsistente</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Ao deletar um item via 'Editar > Deletar', não há confirmação - mas ao deletar pelo canto superior direito, a confirmação é exibida. Comportamento inconsistente para a mesma ação.</p>
@@ -1040,23 +1041,22 @@
                     <div><span class="heuristic-pill">H4 Consistência</span><span class="heuristic-pill">H5 Prev. Erros</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fdba74;">4</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">4 - Grande</div>
                     <div style="background:rgba(249,115,22,0.15);border:1px solid 🔴 Alta Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fdba74;display:inline-block;">🔴 Alta Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Padronizar o comportamento de exclusão: sempre exibir confirmação antes de deletar, independentemente do caminho utilizado.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-07')">
-                    <img src="imgs/f3-07.jpg" alt="Evidência F3-07" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-07')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-07.jpg" alt="Evidência F3-07" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -1067,14 +1067,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-08</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-08</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-08</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Ausência de 'Limpar Carrinho'</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Não existe opção para limpar todo o carrinho de uma vez. O usuário precisa deletar produto por produto.</p>
@@ -1084,23 +1085,22 @@
                     <div><span class="heuristic-pill">H3 Controle</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Adicionar opção 'Limpar carrinho' após selecionar todos os itens, com confirmação para evitar exclusões acidentais.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-08')">
-                    <img src="imgs/f3-08.jpg" alt="Evidência F3-08" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-08')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-08.jpg" alt="Evidência F3-08" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -1111,14 +1111,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-09</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-09</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-09</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Endereço de Entrega Incompleto</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Na tela de compra, o endereço de entrega é indicado apenas por ícone de localização com destaque para o nome da pessoa, omitindo o endereço completo. Falta rótulo textual 'Endereço de entrega'.</p>
@@ -1128,23 +1129,22 @@
                     <div><span class="heuristic-pill">H2 Mundo Real</span><span class="heuristic-pill">H5 Prev. Erros</span><span class="heuristic-pill">H6 Reconhecimento</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#fde047;">3</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">3 - Médio</div>
                     <div style="background:rgba(234,179,8,0.15);border:1px solid 🟡 Prioridade Moderada;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#fde047;display:inline-block;">🟡 Prioridade Moderada</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Adicionar rótulo 'Endereço de entrega' e exibir o endereço de forma resumida mas legível. O ícone deve complementar o texto, não substituí-lo.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-09')">
-                    <img src="imgs/f3-09.jpg" alt="Evidência F3-09" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-09')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-09.jpg" alt="Evidência F3-09" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -1155,14 +1155,15 @@
         <div class="blob" style="width:340px;height:340px;top:-80px;right:-80px;background:#ffb347;opacity:0.08;"></div>
         <div class="blob" style="width:210px;height:210px;bottom:-60px;left:-50px;background:#ee4d2d;opacity:0.05;"></div>
     </div>
-    <div class="content">
-        <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-10</div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
+    <div class="content" style="position:relative;z-index:2;width:100%;max-width:1140px;padding:clamp(0.9rem,2vw,2rem);">
+        <div style="display:grid;grid-template-columns:1fr 0.38fr;gap:1.2rem;align-items:stretch;height:100%;">
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                <div class="reveal" style="font-size:0.68rem;font-weight:600;color:#ffb347;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;">Carrinho / Pagamento · F3-10</div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.85rem;">
             <span class="reveal" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;color:#d4d4d8;flex-shrink:0;">F3-10</span>
             <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);margin:0;">Dados Truncados sem Indicador Visual</h2>
         </div>
-        <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:1.1rem;align-items:start;">
-            <div>
+                <div>
                 <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Descrição</div>
                     <p style="font-size:0.84rem;color:#d4d4d8;line-height:1.6;margin:0;">Em dois momentos do fluxo: na tela de edição de endereço, textos longos são cortados sem reticências, dando impressão de dado incompleto; na confirmação de pedido, o CPF aparece com um dígito a menos, passando a impressão de número incorreto.</p>
@@ -1172,23 +1173,22 @@
                     <div><span class="heuristic-pill">H1 Visibilidade</span><span class="heuristic-pill">H4 Consistência</span></div>
                 </div>
             </div>
-            <div>
-                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0.7rem;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:11px;padding:1rem;margin-bottom:0;text-align:center;">
                     <div style="font-size:0.68rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Severidade</div>
                     <div style="font-size:2.8rem;font-weight:900;color:#93c5fd;">2</div>
                     <div style="font-size:0.75rem;color:#a1a1aa;margin-bottom:0.4rem;">2 - Pequeno</div>
                     <div style="background:rgba(59,130,246,0.15);border:1px solid 🔵 Baixa Prioridade;border-radius:8px;padding:3px 10px;font-size:0.72rem;color:#93c5fd;display:inline-block;">🔵 Baixa Prioridade</div>
                 </div>
-                <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0.7rem;">
+                    <div class="reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-left:3px solid #ffb347;border-radius:10px;padding:0.8rem;margin-bottom:0;">
                     <div style="font-size:0.65rem;font-weight:600;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;">💡 Recomendação</div>
                     <p style="font-size:0.76rem;color:#d4d4d8;line-height:1.5;margin:0;">Garantir que campos com conteúdo truncado exibam reticências. Para dados sensíveis como CPF, exibir o valor completo ou aplicar máscara explícita.</p>
                 </div>
-                
-                <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-10')">
-                    <img src="imgs/f3-10.jpg" alt="Evidência F3-10" loading="lazy">
-                    <div class="zoom-hint">🔍</div>
                 </div>
-                <p style="font-size:0.68rem;color:#71717a;margin-top:5px;text-align:center;letter-spacing:0.04em;">clique para visualizar a foto completa</p>
+            </div>
+            <div class="reveal img-thumb-wrap" onclick="openLightbox('f3-10')" style="height:100%;min-height:0;border-radius:12px;">
+                <img src="imgs/f3-10.jpg" alt="Evidência F3-10" loading="lazy">
+                <div class="zoom-hint">🔍</div>
             </div>
         </div>
     </div>
@@ -1207,61 +1207,61 @@
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H4</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Consistência</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="100" style="height:100%;background:linear-gradient(90deg,#ee4d2d,#ff7337);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#ee4d2d;font-weight:700;text-align:center;">16</span>
+                <span style="font-size:0.72rem;color:#ee4d2d;font-weight:700;text-align:center;">15</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H2</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Mundo Real</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="88" style="height:100%;background:linear-gradient(90deg,#ff7337,#ffb347);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#ff7337;font-weight:700;text-align:center;">14</span>
+                <span style="font-size:0.72rem;color:#ff7337;font-weight:700;text-align:center;">13</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H8</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Minimalismo</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="75" style="height:100%;background:linear-gradient(90deg,#ffb347,#fde047);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#ffb347;font-weight:700;text-align:center;">12</span>
+                <span style="font-size:0.72rem;color:#ffb347;font-weight:700;text-align:center;">9</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H5</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Prev. Erros</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="56" style="height:100%;background:linear-gradient(90deg,#fde047,#84cc16);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#fde047;font-weight:700;text-align:center;">9</span>
+                <span style="font-size:0.72rem;color:#fde047;font-weight:700;text-align:center;">6</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H1</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Visibilidade</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="44" style="height:100%;background:linear-gradient(90deg,#84cc16,#22c55e);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#a3e635;font-weight:700;text-align:center;">7</span>
+                <span style="font-size:0.72rem;color:#a3e635;font-weight:700;text-align:center;">5</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H7</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Flexibilidade</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="38" style="height:100%;background:linear-gradient(90deg,#22c55e,#06b6d4);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#4ade80;font-weight:700;text-align:center;">6</span>
+                <span style="font-size:0.72rem;color:#4ade80;font-weight:700;text-align:center;">4</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H6</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Reconhecimento</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="31" style="height:100%;background:linear-gradient(90deg,#06b6d4,#3b82f6);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#38bdf8;font-weight:700;text-align:center;">5</span>
+                <span style="font-size:0.72rem;color:#38bdf8;font-weight:700;text-align:center;">4</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H3</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Controle</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="25" style="height:100%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#818cf8;font-weight:700;text-align:center;">4</span>
+                <span style="font-size:0.72rem;color:#818cf8;font-weight:700;text-align:center;">3</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H9</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Rec. Erros</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="19" style="height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#c084fc;font-weight:700;text-align:center;">3</span>
+                <span style="font-size:0.72rem;color:#c084fc;font-weight:700;text-align:center;">2</span>
             </div>
             <div class="reveal" style="display:grid;grid-template-columns:2rem 5.5rem 1fr 2.5rem;align-items:center;gap:0.6rem;">
                 <span style="font-size:0.7rem;font-weight:700;color:#a1a1aa;text-align:right;">H10</span>
                 <span style="font-size:0.73rem;color:#d4d4d8;">Documentação</span>
                 <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:13px;overflow:hidden;"><div class="bar-fill" data-width="12" style="height:100%;background:linear-gradient(90deg,#ec4899,#f43f5e);border-radius:4px;width:0%;transition:width 0.6s ease;"></div></div>
-                <span style="font-size:0.72rem;color:#f9a8d4;font-weight:700;text-align:center;">2</span>
+                <span style="font-size:0.72rem;color:#f9a8d4;font-weight:700;text-align:center;">1</span>
             </div>
         </div>
         <div class="reveal" style="margin-top:0.8rem;padding:0.7rem 1rem;background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.2);border-radius:10px;font-size:0.78rem;color:#d4d4d8;line-height:1.6;">
@@ -1277,65 +1277,47 @@
         <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-50px;background:#ff7337;opacity:0.07;"></div>
     </div>
     <div class="content">
-        <div class="reveal" style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.4rem;">Análise Consolidada</div>
-        <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:0.9rem;">Problemas Críticos - Severidade 4 e 5</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;">
-            <div class="reveal" style="background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.22);border-left:3px solid #ee4d2d;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#ee4d2d;">F2-02</span>
-                    <span style="font-size:0.62rem;background:rgba(238,77,45,0.2);color:#fca5a5;border-radius:5px;padding:1px 6px;">5 - Catastrófico</span>
+        <div class="reveal" style="font-size:0.72rem;font-weight:600;color:#ee4d2d;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;">Análise Consolidada</div>
+        <h2 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3.2vw,2.4rem);margin-bottom:1.4rem;">Problemas por Severidade</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+
+            <!-- Card Grau 5 -->
+            <div class="reveal" style="background:rgba(238,77,45,0.1);border:1px solid rgba(238,77,45,0.3);border-radius:14px;padding:1.4rem 1.6rem;">
+                <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+                    <span style="background:rgba(238,77,45,0.3);color:#fca5a5;font-size:1.4rem;font-weight:900;min-width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;">5</span>
+                    <div>
+                        <div style="font-weight:700;font-size:1rem;color:#fca5a5;">Catastrófico</div>
+                        <div style="font-size:0.75rem;color:#a1a1aa;">5 problemas identificados</div>
+                    </div>
                 </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Seção 'Especificação' com múltiplos problemas: texto truncado, botão 'Aplicar' inútil e dados ambíguos.</p>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#ee4d2d;font-weight:700;flex-shrink:0;">F2-02</span> Seção 'Especificação' com texto truncado e botão inútil</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#ee4d2d;font-weight:700;flex-shrink:0;">F3-02</span> Botões de quantidade no carrinho inacessíveis</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#ee4d2d;font-weight:700;flex-shrink:0;">F3-03</span> 'Similar' redireciona fora do fluxo de compra</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#ee4d2d;font-weight:700;flex-shrink:0;">F3-04</span> Campos de cupom duplicados geram confusão</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#ee4d2d;font-weight:700;flex-shrink:0;">F3-05</span> Botão flutuante 'See Original' em inglês obstrui UI</li>
+                </ul>
             </div>
-            <div class="reveal" style="background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.22);border-left:3px solid #ee4d2d;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#ee4d2d;">F3-02</span>
-                    <span style="font-size:0.62rem;background:rgba(238,77,45,0.2);color:#fca5a5;border-radius:5px;padding:1px 6px;">5 - Catastrófico</span>
+
+            <!-- Card Grau 4 -->
+            <div class="reveal" style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.3);border-radius:14px;padding:1.4rem 1.6rem;">
+                <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+                    <span style="background:rgba(249,115,22,0.3);color:#fdba74;font-size:1.4rem;font-weight:900;min-width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;">4</span>
+                    <div>
+                        <div style="font-weight:700;font-size:1rem;color:#fdba74;">Grave</div>
+                        <div style="font-size:0.75rem;color:#a1a1aa;">6 problemas identificados</div>
+                    </div>
                 </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Botões de quantidade no carrinho muito pequenos - violação de acessibilidade móvel.</p>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F1-02</span> Card com vídeo abre player em vez da página do produto</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F1-03</span> Preço do card não corresponde à imagem exibida</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F1-05</span> Dupla barra de busca gera redundância na tela inicial</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F2-01</span> Hierarquia de produto mal definida na página de detalhes</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F3-06</span> Checkboxes do carrinho com comportamento inconsistente</li>
+                    <li style="font-size:0.82rem;color:#d4d4d8;display:flex;gap:0.5rem;"><span style="color:#fdba74;font-weight:700;flex-shrink:0;">F3-07</span> Exclusão de item sem confirmação ou desfazer</li>
+                </ul>
             </div>
-            <div class="reveal" style="background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.22);border-left:3px solid #ee4d2d;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#ee4d2d;">F3-03</span>
-                    <span style="font-size:0.62rem;background:rgba(238,77,45,0.2);color:#fca5a5;border-radius:5px;padding:1px 6px;">5 - Catastrófico</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Opção 'Similar' no carrinho redireciona para busca - fora de contexto no fluxo de compra.</p>
-            </div>
-            <div class="reveal" style="background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.22);border-left:3px solid #ee4d2d;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#ee4d2d;">F3-04</span>
-                    <span style="font-size:0.62rem;background:rgba(238,77,45,0.2);color:#fca5a5;border-radius:5px;padding:1px 6px;">5 - Catastrófico</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Campos de cupom duplicados com o mesmo ícone geram confusão na finalização.</p>
-            </div>
-            <div class="reveal" style="background:rgba(238,77,45,0.09);border:1px solid rgba(238,77,45,0.22);border-left:3px solid #ee4d2d;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#ee4d2d;">F3-05</span>
-                    <span style="font-size:0.62rem;background:rgba(238,77,45,0.2);color:#fca5a5;border-radius:5px;padding:1px 6px;">5 - Catastrófico</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Botão flutuante 'See Original' em inglês e sobre botões importantes.</p>
-            </div>
-            <div class="reveal" style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-left:3px solid #fdba74;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#fdba74;">F1-02</span>
-                    <span style="font-size:0.62rem;background:rgba(249,115,22,0.15);color:#fdba74;border-radius:5px;padding:1px 6px;">4 - Grande</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Card com vídeo abre player em tela cheia ao invés da página do produto.</p>
-            </div>
-            <div class="reveal" style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-left:3px solid #fdba74;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#fdba74;">F1-03</span>
-                    <span style="font-size:0.62rem;background:rgba(249,115,22,0.15);color:#fdba74;border-radius:5px;padding:1px 6px;">4 - Grande</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Preço do card não corresponde à imagem exibida - cria expectativa falsa.</p>
-            </div>
-            <div class="reveal" style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-left:3px solid #fdba74;border-radius:9px;padding:0.65rem 0.85rem;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:0.72rem;font-weight:700;color:#fdba74;">F1-05 · F2-01 · F3-06 · F3-07</span>
-                    <span style="font-size:0.62rem;background:rgba(249,115,22,0.15);color:#fdba74;border-radius:5px;padding:1px 6px;">4 - Grande</span>
-                </div>
-                <p style="font-size:0.74rem;color:#d4d4d8;margin:0;line-height:1.45;">Dupla busca · Hierarquia de produto · Checkboxes · Exclusão inconsistente</p>
-            </div>
+
         </div>
     </div>
 </div>
